@@ -1,10 +1,15 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
-    <main>
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+<MudLayout>
+    <MudPaper Height="100%" Width="100%" Class="pa-16 ma-2" Elevation="0">
+        <MudContainer MaxWidth="MaxWidth.Small">
+            <MudPaper Height="500px" Width="100%" Square="true" Class="pa-10 ma-2" Style="background-color:lightgrey" Elevation="3">
+                @Body
+            </MudPaper>
+        </MudContainer>
+    </MudPaper>
+</MudLayout>
