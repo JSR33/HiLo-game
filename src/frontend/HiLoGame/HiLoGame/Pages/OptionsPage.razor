@@ -1,0 +1,18 @@
+﻿@page "/options"
+
+<MudStack Class="pa-8">
+    <MudSelect T="string" Label="Game mode" AnchorOrigin="Origin.BottomCenter">
+        <MudSelectItem Value="@("Easy")" />
+        <MudSelectItem Value="@("Medium")" />
+        <MudSelectItem Value="@("Hard")" />
+    </MudSelect>
+    <MudNumericField @bind-Value="IntValue" Label="Number of players" Variant="Variant.Text" Min="1" Max="6" />
+</MudStack>
+<MudStack Row="true" Class="justify-center">
+    <MudFab Href="/" Color="Color.Dark" Icon="@Icons.Filled.ArrowBackIos" Label="Back" Size="Size.Small"></MudFab>
+    <MudFab Href="/" Color="Color.Dark" Icon="@Icons.Filled.Save" Label="Save" Size="Size.Small"></MudFab>
+</MudStack>
+
+@code {
+    public int IntValue { get; set; } = 1;
+}
