@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiLoGame.Frontend", "HiLoGame\HiLoGame.Frontend.csproj", "{35BDED02-BA57-41BE-8C4A-831C71DD0017}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiLoGame.Backend", "HiLoGame.Backend\HiLoGame.Backend.csproj", "{7F9AA5F7-3911-43BE-9909-5E29E5100599}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiLoGame.Frontend", "HiLoGame.Frontend\HiLoGame.Frontend.csproj", "{62F04029-6BF0-4687-91E5-9DA599E7F7F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{35BDED02-BA57-41BE-8C4A-831C71DD0017}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35BDED02-BA57-41BE-8C4A-831C71DD0017}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35BDED02-BA57-41BE-8C4A-831C71DD0017}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{35BDED02-BA57-41BE-8C4A-831C71DD0017}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F9AA5F7-3911-43BE-9909-5E29E5100599}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F9AA5F7-3911-43BE-9909-5E29E5100599}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F9AA5F7-3911-43BE-9909-5E29E5100599}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F9AA5F7-3911-43BE-9909-5E29E5100599}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62F04029-6BF0-4687-91E5-9DA599E7F7F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62F04029-6BF0-4687-91E5-9DA599E7F7F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62F04029-6BF0-4687-91E5-9DA599E7F7F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62F04029-6BF0-4687-91E5-9DA599E7F7F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
