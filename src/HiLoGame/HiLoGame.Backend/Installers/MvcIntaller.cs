@@ -13,13 +13,12 @@ namespace HiLoGame.Backend.Installers
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            services.AddCors(options =>
+            services.AddCors(policy =>
             {
-                options.AddDefaultPolicy(
-                    policy =>
-                    {
-                        policy.WithOrigins("https://localhost:7190");
-                    });
+                policy.AddPolicy("CorsPolicy", opt => opt
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
             });
 
             services.AddAutoMapper(typeof(Program));
