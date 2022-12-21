@@ -29,6 +29,58 @@ namespace HiLoGame.Backend.Controllers.v1
         }
 
         /// <summary>
+        /// Return game info configured in system
+        /// </summary>
+        /// <returns></returns>
+        [ProducesResponseType(typeof(GameInfoResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 404)]
+        [HttpGet(ApiRoutes.GameInfo.GetGameInfo)]
+        public async Task<IActionResult> GetGameInfo()
+        {
+            var gameInfo = await _gameInfoRepository.GetGameInfo(1);
+
+            if (gameInfo == null)
+            {
+                return NotFound(ErrorResponseObjectCreator.ErrorResponseObject($"There are no game configurations in the system"));
+            }
+
+            return Ok(new Response<GameInfoResponse>(_mapper.Map<GameInfoResponse>(gameInfo)));
+        }
+
+        /// <summary>
+        /// Return game info configured in system
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet(ApiRoutes.GameInfo.GetGameTypes)]
+        public List<string> GetGameTypes()
+        {
+            var gameTypes = new List<string>() 
+            { 
+                GameType.SinglePlayer, 
+                GameType.MultiPlayer 
+            };
+
+            return gameTypes;
+        }
+
+        /// <summary>
+        /// Return game info configured in system
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet(ApiRoutes.GameInfo.GetGameModes)]
+        public List<string> GetGameModes()
+        {
+            var gameMode = new List<string>() 
+            { 
+                GameMode.Easy, 
+                GameMode.Medium, 
+                GameMode.Hard
+            };
+
+            return gameMode;
+        }
+
+        /// <summary>
         /// Update game information
         /// </summary>
         /// <param name="id"></param>

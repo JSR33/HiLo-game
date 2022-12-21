@@ -15,6 +15,8 @@ namespace HiLoGame.Contracts.v1
         public static class GameInfo
         {
             public const string GetGameInfo = Base + "/gameinfo";
+            public const string GetGameTypes = Base + "/gametypes";
+            public const string GetGameModes = Base + "/gamemodes";
             public const string Update = Base + "/gameinfo/{id}";
         }
     }
