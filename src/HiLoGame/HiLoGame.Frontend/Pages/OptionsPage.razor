@@ -1,18 +1,60 @@
 ﻿@page "/options"
+@using HiLoGame.Contracts.v1.Requests
+@using HiLoGame.Frontend.Services
+@inject IGameInfoService GameInfoService 
 
 <MudStack Class="pa-8">
-    <MudSelect T="string" Label="Game mode" AnchorOrigin="Origin.BottomCenter">
-        <MudSelectItem Value="@("Easy")" />
-        <MudSelectItem Value="@("Medium")" />
-        <MudSelectItem Value="@("Hard")" />
+    <MudSelect T="string" Label="Game mode" AnchorOrigin="Origin.BottomCenter" @bind-Value="GameModeValue">
+        <Virtualize Items="@gameModes" Context="gameMode">
+            <MudSelectItem T="string" Value="@gameMode">@gameMode</MudSelectItem>
+        </Virtualize>
     </MudSelect>
-    <MudNumericField @bind-Value="IntValue" Label="Number of players" Variant="Variant.Text" Min="1" Max="6" />
+    <MudSelect T="string" Label="Game type" AnchorOrigin="Origin.BottomCenter" @bind-Value="GameTypeValue">
+        <Virtualize Items="@gameTypes" Context="gameType">
+            <MudSelectItem T="string" Value="@gameType">@gameType</MudSelectItem>
+        </Virtualize>
+    </MudSelect>
+    <MudNumericField @bind-Value="NumberOdRounds" Label="Number of rounds" Variant="Variant.Text" Min="1" Max="6" />
 </MudStack>
 <MudStack Row="true" Class="justify-center">
     <MudFab Href="/" Color="Color.Dark" Icon="@Icons.Filled.ArrowBackIos" Label="Back" Size="Size.Small"></MudFab>
-    <MudFab Href="/" Color="Color.Dark" Icon="@Icons.Filled.Save" Label="Save" Size="Size.Small"></MudFab>
+    <MudFab Href="/" Color="Color.Dark" Icon="@Icons.Filled.Save" Label="Save" Size="Size.Small" OnClick="UpdateGameInfo"></MudFab>
 </MudStack>
 
 @code {
-    public int IntValue { get; set; } = 1;
+    private int NumberOdRounds { get; set; } 
+    private string GameModeValue { get; set; } 
+    private string GameTypeValue { get; set; } 
+    private string[] gameModes = Array.Empty<string>();
+    private string[] gameTypes = Array.Empty<string>();
+
+    protected override async Task OnInitializedAsync(){
+        gameModes = (await GameInfoService.GetGameModes()).ToArray();
+        gameTypes = (await GameInfoService.GetGameTypes()).ToArray();
+
+        var gameInfo = await GameInfoService.GetGameInfo();
+        if(gameInfo.GameMode is null
+            || gameInfo.GameType is null){
+            GameModeValue = gameModes.First();
+            GameTypeValue = gameTypes.First();
+            NumberOdRounds = 1;
+
+            return;
+        }
+
+        GameModeValue = gameInfo.GameMode;
+        GameTypeValue = gameInfo.GameType;
+        NumberOdRounds = gameInfo.NumberOfRounds;
+    }
+
+    private async void UpdateGameInfo(){
+        var gameInfo = new GameInfoRequest()
+            {
+                GameMode = GameModeValue,
+                GameType = GameTypeValue,
+                NumberOfRounds = NumberOdRounds
+            };
+
+        var updated = await GameInfoService.UpdateGameInfo(gameInfo);
+    }
 }

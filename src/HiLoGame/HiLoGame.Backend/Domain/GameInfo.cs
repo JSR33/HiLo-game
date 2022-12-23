@@ -27,6 +27,7 @@ namespace HiLoGame.Backend.Domain
         /// <summary>
         /// Number of rounds to be played to complete a game
         /// </summary>
+        [Range(1,6)]
         public int NumberOfRounds { get; set; }
     }
 }

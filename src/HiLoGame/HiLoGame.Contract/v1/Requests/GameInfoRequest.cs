@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace HiLoGame.Contracts.v1.Requests
 {
@@ -21,6 +17,7 @@ namespace HiLoGame.Contracts.v1.Requests
         /// <summary>
         /// Number of rounds to be played to complete a game
         /// </summary>
+        [Range(1,6)]
         public int NumberOfRounds { get; set; }
     }
 }
