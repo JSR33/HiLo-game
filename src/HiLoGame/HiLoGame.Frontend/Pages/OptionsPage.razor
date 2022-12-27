@@ -2,6 +2,7 @@
 @using HiLoGame.Contracts.v1.Requests
 @using HiLoGame.Frontend.Services
 @inject IGameInfoService GameInfoService 
+@inject SessionStorageAccessor SessionStorageAccessor
 
 <MudStack Class="pa-8">
     <MudSelect T="string" Label="Game mode" AnchorOrigin="Origin.BottomCenter" @bind-Value="GameModeValue">
@@ -56,5 +57,8 @@
             };
 
         var updated = await GameInfoService.UpdateGameInfo(gameInfo);
+        await SessionStorageAccessor.SetValueAsync("GameMode", updated.GameMode);
+        await SessionStorageAccessor.SetValueAsync("GameType", updated.GameType);
+        await SessionStorageAccessor.SetValueAsync("NumberOfRounds", updated.NumberOfRounds);
     }
 }
