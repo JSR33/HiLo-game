@@ -2,6 +2,9 @@
 
 namespace HiLoGame.Frontend.Services
 {
+    /// <summary>
+    /// Session storage accessor
+    /// </summary>
     public class SessionStorageAccessor : IAsyncDisposable
     {
         private Lazy<IJSObjectReference> _accessorJsRef = new();
@@ -12,6 +15,10 @@ namespace HiLoGame.Frontend.Services
             _jsRuntime = jsRuntime;
         }
 
+        /// <summary>
+        /// Create sessions storage accessor reference to js file
+        /// </summary>
+        /// <returns></returns>
         private async Task WaitForReference()
         {
             if (_accessorJsRef.IsValueCreated is false)
@@ -20,6 +27,10 @@ namespace HiLoGame.Frontend.Services
             }
         }
 
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        /// <returns></returns>
         public async ValueTask DisposeAsync()
         {
             if (_accessorJsRef.IsValueCreated)
@@ -28,6 +39,12 @@ namespace HiLoGame.Frontend.Services
             }
         }
 
+        /// <summary>
+        /// Get session storage value by key
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public async Task<T> GetValueAsync<T>(string key)
         {
             await WaitForReference();
@@ -36,18 +53,34 @@ namespace HiLoGame.Frontend.Services
             return result;
         }
 
+        /// <summary>
+        /// Set value in sessions storage
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public async Task SetValueAsync<T>(string key, T value)
         {
             await WaitForReference();
             await _accessorJsRef.Value.InvokeVoidAsync("set", key, value);
         }
 
+        /// <summary>
+        /// Clear session storage
+        /// </summary>
+        /// <returns></returns>
         public async Task Clear()
         {
             await WaitForReference();
             await _accessorJsRef.Value.InvokeVoidAsync("clear");
         }
 
+        /// <summary>
+        /// Remove session storage value by key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public async Task RemoveAsync(string key)
         {
             await WaitForReference();
