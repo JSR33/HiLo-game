@@ -42,6 +42,8 @@ namespace HiLoGame.Backend.Services
         /// <inheritdoc/>
         public async Task<bool> UpdateGameInfo(GameInfo gameInfo)
         {
+            if(gameInfo == null) { return false; }
+
             using (var context = new ApiContext())
             {
                 context.GameInfo.Update(gameInfo);
