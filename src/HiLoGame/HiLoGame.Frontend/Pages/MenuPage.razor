@@ -1,0 +1,37 @@
+﻿@page "/"
+@using HiLoGame.Contracts.v1.Requests
+@using HiLoGame.Frontend.Services
+@inject IGameInfoService GameInfoService
+@inject SessionStorageAccessor SessionStorageAccessor
+
+<div class="pa-10 d-flex justify-center" >
+    <MudStack>
+        <MudButton Href="" Class="pa-3" Style="background-color:white; width: 200px;">
+            Single Player
+        </MudButton>
+        <MudButton Href="" Class="pa-3" Style="background-color:white; width: 200px;">
+            Multi Player
+        </MudButton>
+        <MudButton Href="/options" Class="pa-3" Style="background-color:white; width: 200px;">
+            Options
+        </MudButton>
+        <MudButton Href="/rules" Class="pa-3" Style="background-color:white; width: 200px;">
+            Rules
+        </MudButton>
+    </MudStack>
+</div>
+
+@code{
+    protected override async Task OnInitializedAsync(){
+        var gameInfo = await GameInfoService.GetGameInfo();
+        if (gameInfo.GameMode is null
+            || gameInfo.GameType is null)
+        {
+            return;
+        }
+
+        await SessionStorageAccessor.SetValueAsync("GameMode", gameInfo.GameMode);
+        await SessionStorageAccessor.SetValueAsync("GameType", gameInfo.GameType);
+        await SessionStorageAccessor.SetValueAsync("NumberOfRounds", gameInfo.NumberOfRounds);
+    }
+}
