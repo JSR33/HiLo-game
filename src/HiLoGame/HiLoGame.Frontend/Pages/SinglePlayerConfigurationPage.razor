@@ -1,0 +1,51 @@
+﻿@page "/singleplayerconfiguration"
+@using HiLoGame.Contracts.v1.Requests
+@using HiLoGame.Contracts.v1.Responses
+@using HiLoGame.Frontend.Services
+@using System.Text.Json
+@inject NavigationManager NavigationManager
+@inject IDialogService DialogService
+@inject IPlayerInfoService PlayerInfoService 
+@inject SessionStorageAccessor SessionStorageAccessor
+
+<MudStack Class="pa-8">
+    <MudTextField @bind-Value="PlayerName" Label="Player name" Variant="Variant.Text" Validation="@(new Func<string, IEnumerable<string>>(MinMaxCharacters))"></MudTextField>
+    <MudNumericField @bind-Value="PlayerAge" Label="Player age" Variant="Variant.Text" Min="1" Max="99"></MudNumericField>
+</MudStack>
+<MudStack Row="true" Class="justify-center">
+    <MudFab Color="Color.Dark" Label="Play" Icon="@Icons.Filled.PlayArrow" Size="Size.Small" OnClick="CreatePlayer"></MudFab>
+</MudStack>
+
+@code {
+    public string PlayerName { get; set; }
+    public int PlayerAge { get; set; } = 18;
+
+    private async void CreatePlayer(){
+        var playerInfo = new PlayerInfoRequest
+            {
+                Name = PlayerName,
+                Age = PlayerAge
+            };
+
+        var createdPlayer = await PlayerInfoService.CreateNewPlayer(playerInfo);
+
+        if(createdPlayer is null){
+            bool? result = await DialogService.ShowMessageBox(
+                "Warning",
+                "Player not created. Try again.");
+            return;
+        }
+
+        await SessionStorageAccessor.SetValueAsync("PlayerInfo", JsonSerializer.Serialize(createdPlayer));
+        NavigationManager.NavigateTo("/playgame");
+    }
+
+    private IEnumerable<string> MinMaxCharacters(string ch)
+    {
+        if (!string.IsNullOrEmpty(ch) && 150 < ch?.Length)
+            yield return "Max 150 characters";
+
+        if (string.IsNullOrWhiteSpace(ch))
+            yield return "Min 1 characters";
+    }
+}

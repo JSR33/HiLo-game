@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiLoGame.Frontend", "HiLoGa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiLoGame.Contracts", "HiLoGame.Contract\HiLoGame.Contracts.csproj", "{BBE3F62E-70B4-4397-8A84-F8F4F476E41E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiLoGame.Tests", "HiLoGame.Tests\HiLoGame.Tests.csproj", "{B3BA1F7F-EECE-4EE2-84C6-AF3A262BF9D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiLoGame.Tests", "HiLoGame.Tests\HiLoGame.Tests.csproj", "{B3BA1F7F-EECE-4EE2-84C6-AF3A262BF9D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

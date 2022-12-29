@@ -15,6 +15,7 @@ namespace HiLoGame.Backend.Mapping
         public DomainToResponseProfile()
         {
             CreateMap<GameInfo, GameInfoResponse>();
+            CreateMap<PlayerInfo, PlayerInfoResponse>();
         }
     }
 }
