@@ -1,0 +1,16 @@
+﻿@page "/singleplayerconfiguration"
+
+<MudStack Class="pa-8">
+    <MudTextField @bind-Value="PlayerName" Label="Player name" Variant="Variant.Text"></MudTextField>
+    <MudNumericField @bind-Value="PlayerAge" Label="Player age" Variant="Variant.Text" Min="1" Max="99"></MudNumericField>
+</MudStack>
+<MudStack Row="true" Class="justify-center">
+    <MudFab Href="/playgame" Color="Color.Dark" Label="Play" Icon="@Icons.Filled.PlayArrow" Size="Size.Small"></MudFab>
+</MudStack>
+
+@code {
+    public string PlayerName { get; set; }
+    public int PlayerAge { get; set; } = 18;
+
+
+}
