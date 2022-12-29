@@ -9,7 +9,7 @@
 @inject SessionStorageAccessor SessionStorageAccessor
 
 <MudStack Class="pa-8">
-    <MudTextField @bind-Value="PlayerName" Label="Player name" Variant="Variant.Text" Validation="@(new Func<string, IEnumerable<string>>(MinMaxCharacters))"></MudTextField>
+    <MudTextField @bind-Value="PlayerName" Label="Player name" Variant="Variant.Text"></MudTextField>
     <MudNumericField @bind-Value="PlayerAge" Label="Player age" Variant="Variant.Text" Min="1" Max="99"></MudNumericField>
 </MudStack>
 <MudStack Row="true" Class="justify-center">
@@ -17,10 +17,17 @@
 </MudStack>
 
 @code {
-    public string PlayerName { get; set; }
+    public string PlayerName { get; set; } = "";
     public int PlayerAge { get; set; } = 18;
 
     private async void CreatePlayer(){
+        if(PlayerName.Length == 0 || PlayerName.Length > 150){
+            await DialogService.ShowMessageBox(
+                "Warning",
+                "Player must have a name with a minimun of 1 characther and a maximun of 150 characthers");
+            return;
+        }
+
         var playerInfo = new PlayerInfoRequest
             {
                 Name = PlayerName,
@@ -38,14 +45,5 @@
 
         await SessionStorageAccessor.SetValueAsync("PlayerInfo", JsonSerializer.Serialize(createdPlayer));
         NavigationManager.NavigateTo("/playgame");
-    }
-
-    private IEnumerable<string> MinMaxCharacters(string ch)
-    {
-        if (!string.IsNullOrEmpty(ch) && 150 < ch?.Length)
-            yield return "Max 150 characters";
-
-        if (string.IsNullOrWhiteSpace(ch))
-            yield return "Min 1 characters";
     }
 }
