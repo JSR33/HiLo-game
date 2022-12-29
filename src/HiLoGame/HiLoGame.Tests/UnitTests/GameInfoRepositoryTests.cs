@@ -1,12 +1,6 @@
 ﻿using FluentAssertions;
 using HiLoGame.Backend.Domain;
 using HiLoGame.Backend.Services;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace HiLoGame.Tests.UnitTests
