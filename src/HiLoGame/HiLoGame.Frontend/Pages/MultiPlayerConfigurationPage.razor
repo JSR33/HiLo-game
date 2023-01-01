@@ -1,0 +1,86 @@
+﻿@page "/multiplayerconfiguration"
+@using HiLoGame.Contracts.v1.Requests
+@using HiLoGame.Contracts.v1.Responses
+@using HiLoGame.Frontend.Services
+@using System.Text.Json
+@inject IDialogService DialogService
+@inject IPlayerInfoService PlayerInfoService
+@inject NavigationManager NavigationManager
+@inject SessionStorageAccessor SessionStorageAccessor
+
+<MudGrid>
+     <MudItem xs="6">
+        <MudStack Class="pa-2 pt-8">
+            <MudTextField @bind-Value="PlayerName" Label="Player name" Immediate="true" Variant="Variant.Text"></MudTextField>
+        </MudStack>
+    </MudItem>
+    <MudItem xs="3">
+        <MudStack Class="pa-2 pt-8">
+            <MudNumericField @bind-Value="PlayerAge" Label="Player age" Variant="Variant.Text" Min="1" Max="99"></MudNumericField>
+        </MudStack>
+    </MudItem>
+    <MudItem xs="3" Class="align-self-center">
+        <MudStack Class="pa-2 pt-8">
+            <MudFab Color="Color.Dark" Label="Create" Size="Size.Small" OnClick="CreatePlayer"></MudFab>
+        </MudStack>
+    </MudItem>
+</MudGrid>
+<MudDataGrid Items="@Players.Take(6)" Height="230px">
+    <Columns>
+        <Column CellStyle="Height=20px" T="PlayerInfoResponse" Field="Id" Title="Nr" />
+        <Column  T="PlayerInfoResponse" Field="Name" />
+        <Column T="PlayerInfoResponse" Field="Age" />
+    </Columns>
+</MudDataGrid>
+<MudStack Row="true" Class="pa-8 justify-center">
+    <MudFab Href="/" Color="Color.Dark" Icon="@Icons.Filled.ArrowBackIos" Label="Back" Size="Size.Small"></MudFab>
+    <MudFab Color="Color.Dark" Icon="@Icons.Filled.PlayArrow" Label="Play" Size="Size.Small" OnClick="PlayGame"></MudFab>
+</MudStack>
+
+@code {
+    private string PlayerName { get; set; } = "";
+    private int PlayerAge { get; set; } = 18;
+    private IEnumerable<PlayerInfoResponse> Players = new List<PlayerInfoResponse>();
+    private List<PlayerInfoResponse> tempPlayers = new List<PlayerInfoResponse>();
+
+    private async void CreatePlayer()
+    {
+        if(PlayerName.Length == 0 || PlayerName.Length > 150){
+            await DialogService.ShowMessageBox(
+                "Warning",
+                "Player must have a name with a minimun of 1 characther and a maximun of 150 characthers");
+            return;
+        }
+
+        var playerInfo = new PlayerInfoRequest
+            {
+                Name = PlayerName,
+                Age = PlayerAge
+            };
+
+        var createdPlayer = await PlayerInfoService.CreateNewPlayer(playerInfo);
+
+        if (createdPlayer is null)
+        {
+            await DialogService.ShowMessageBox(
+                "Warning",
+                "Player not created. Try again.");
+            return;
+        }
+
+        tempPlayers.Add(createdPlayer);
+        Players = tempPlayers;
+        StateHasChanged();
+    }
+
+    private async void PlayGame(){
+        if(!Players.Any()){
+            await DialogService.ShowMessageBox(
+                "Warning",
+                "You must have to add at least one player.");
+            return;
+        }
+
+        NavigationManager.NavigateTo("/playgame");
+    }
+}
