@@ -5,6 +5,7 @@
 @using System.Text.Json
 @inject IDialogService DialogService
 @inject IPlayerInfoService PlayerInfoService
+@inject NavigationManager NavigationManager
 @inject SessionStorageAccessor SessionStorageAccessor
 
 <MudGrid>
@@ -33,7 +34,7 @@
 </MudDataGrid>
 <MudStack Row="true" Class="pa-8 justify-center">
     <MudFab Href="/" Color="Color.Dark" Icon="@Icons.Filled.ArrowBackIos" Label="Back" Size="Size.Small"></MudFab>
-    <MudFab Href="/" Color="Color.Dark" Icon="@Icons.Filled.PlayArrow" Label="Play" Size="Size.Small" OnClick="PlayGame"></MudFab>
+    <MudFab Color="Color.Dark" Icon="@Icons.Filled.PlayArrow" Label="Play" Size="Size.Small" OnClick="PlayGame"></MudFab>
 </MudStack>
 
 @code {
@@ -73,5 +74,13 @@
     }
 
     private async void PlayGame(){
+        if(!Players.Any()){
+            await DialogService.ShowMessageBox(
+                "Warning",
+                "You must have to add at least one player.");
+            return;
+        }
+
+        NavigationManager.NavigateTo("/playgame");
     }
 }
