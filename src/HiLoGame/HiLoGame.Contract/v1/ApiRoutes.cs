@@ -24,5 +24,12 @@ namespace HiLoGame.Contracts.v1
         {
             public const string CreateNewPlayer = Base + "/createnewplayer";
         }
+
+        public static class PlayGame
+        {
+            public const string CreateUsersMagicNumber = Base + "/createusersmagicnumber";
+            public const string GetNextPlayerInformation = Base + "/nextplayerinfo";
+            public const string PlayerBet = Base + "/playerbet";
+        }
     }
 }

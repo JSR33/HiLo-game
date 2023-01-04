@@ -15,6 +15,7 @@ namespace HiLoGame.Backend.Installers
             //Services
             services.AddScoped<IGameInfoRepository, GameInfoRepository>();
             services.AddScoped<IPlayerInfoRepository, PlayerInfoRepository>();
+            services.AddScoped<IPlayGameRepository, PlayGameRepository>();
         }
     }
 }

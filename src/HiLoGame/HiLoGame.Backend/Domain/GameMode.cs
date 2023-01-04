@@ -8,17 +8,17 @@
         /// <summary>
         /// Easy mode
         /// </summary>
-        public static readonly string Easy = "Easy";
+        public const string Easy = "Easy";
 
         /// <summary>
         /// Medium mode
         /// </summary>
-        public static readonly string Medium = "Medium";
+        public const string Medium = "Medium";
 
         /// <summary>
         /// Hard mode
         /// </summary>
-        public static readonly string Hard = "Hard";
+        public const string Hard = "Hard";
 
         /// <summary>
         /// Returns a value that indicates if the <paramref name="gameMode"/> is one of the availables in the game
@@ -30,6 +30,21 @@
             return IsEasyMode(gameMode)
                 || IsMediumMode(gameMode)
                 || IsHardMode(gameMode);
+        }
+
+        public static int GetModeHigherMagicNumber(string gameMode)
+        {
+            switch (gameMode)
+            {
+                case Easy:
+                    return 25;
+                case Medium:
+                    return 100;
+                case Hard:
+                    return 500;
+                default:
+                    return 0;
+            }
         }
 
         /// <summary>

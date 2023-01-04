@@ -27,5 +27,10 @@ namespace HiLoGame.Backend.Domain
         /// </summary>
         [Range(1,99)]
         public int Age { get; set; }
+
+        /// <summary>
+        /// Number of rounds played
+        /// </summary>
+        public int GameRound { get; set; }
     }
 }

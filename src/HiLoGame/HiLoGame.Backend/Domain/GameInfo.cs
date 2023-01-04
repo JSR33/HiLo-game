@@ -29,5 +29,10 @@ namespace HiLoGame.Backend.Domain
         /// </summary>
         [Range(1,6)]
         public int NumberOfRounds { get; set; }
+
+        /// <summary>
+        /// Round that is being played by users
+        /// </summary>
+        public int RoundNumber { get; set; }
     }
 }
