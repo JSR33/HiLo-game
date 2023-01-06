@@ -16,5 +16,10 @@
         /// Player age
         /// </summary>
         public int Age { get; set; }
+
+        /// <summary>
+        /// Number of rounds played
+        /// </summary>
+        public int GameRound { get; set; }
     }
 }

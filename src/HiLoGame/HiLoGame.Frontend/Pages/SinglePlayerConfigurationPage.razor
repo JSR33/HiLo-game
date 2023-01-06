@@ -43,7 +43,9 @@
             return;
         }
 
-        await SessionStorageAccessor.SetValueAsync("PlayerInfo", JsonSerializer.Serialize(createdPlayer));
+        IEnumerable<PlayerInfoResponse> tempPlayerInfo = new List<PlayerInfoResponse>() { createdPlayer };
+        await SessionStorageAccessor.SetValueAsync("PlayerInfo", JsonSerializer.Serialize(tempPlayerInfo));
+        await SessionStorageAccessor.SetValueAsync("GameRound", 0);
         NavigationManager.NavigateTo("/playgame");
     }
 }

@@ -70,6 +70,9 @@
 
         tempPlayers.Add(createdPlayer);
         Players = tempPlayers;
+
+        PlayerName = "";
+        PlayerAge = 18;
         StateHasChanged();
     }
 
@@ -81,6 +84,8 @@
             return;
         }
 
+        await SessionStorageAccessor.SetValueAsync("PlayerInfo", JsonSerializer.Serialize(Players));
+        await SessionStorageAccessor.SetValueAsync("GameRound", 0);
         NavigationManager.NavigateTo("/playgame");
     }
 }

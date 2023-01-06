@@ -16,5 +16,6 @@ namespace HiLoGame.Backend.Data
 
         internal DbSet<GameInfo> GameInfo { get; set; }
         internal DbSet<PlayerInfo> PlayerInfo { get; set; }
+        internal DbSet<PlayerGameInfo> PlayerGameInfo { get; set; }
     }
 }
