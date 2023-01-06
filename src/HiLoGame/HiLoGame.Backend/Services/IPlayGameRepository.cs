@@ -14,12 +14,6 @@ namespace HiLoGame.Backend.Services
         public Task<bool> CreateUsersMagicNumber();
 
         /// <summary>
-        /// Get next player to play 
-        /// </summary>
-        /// <returns></returns>
-        public Task<PlayerInfo> GetNextPlayerInfo(int roundNumber);
-
-        /// <summary>
         /// Validate if player already have a magic number associated
         /// </summary>
         /// <returns></returns>

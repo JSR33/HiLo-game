@@ -8,43 +8,44 @@ namespace HiLoGame.Backend.Services
     public class PlayGameRepository : IPlayGameRepository
     {
         /// <inheritdoc/>
-        public Task<bool> CreateUsersMagicNumber()
+        public async Task<bool> CreateUsersMagicNumber()
         {
-            using(var context = new ApiContext())
+            using (var context = new ApiContext())
             {
                 var gameMode = context.GameInfo.First().GameMode;
                 var MagicNumberMaxNumber = GameMode.GetModeHigherMagicNumber(gameMode);
 
                 if (MagicNumberMaxNumber == 0)
-                    return Task.FromResult(false);
+                    return false;
 
                 foreach (var userInfo in context.PlayerInfo)
                 {
-                    var playerGameInfo = new PlayerGameInfo()
-                    {
-                        PlayerInfoId = userInfo.Id,
-                        Pontuation = 0,
-                        MagicNumber = new Random().Next(0, MagicNumberMaxNumber)
-                    };
+                    PlayerGameInfo playerGameInfo;
 
-                    context.PlayerGameInfo.Add(playerGameInfo);
+                    if (!await context.PlayerGameInfo.AnyAsync(_ => _.PlayerInfoId == userInfo.Id))
+                    {
+                        playerGameInfo = new PlayerGameInfo()
+                        {
+                            PlayerInfoId = userInfo.Id,
+                            Pontuation = 0,
+                            MagicNumber = new Random().Next(0, MagicNumberMaxNumber)
+                        };
+
+                        context.PlayerGameInfo.Add(playerGameInfo);
+                    }
+                    else
+                    {
+                        playerGameInfo = await context.PlayerGameInfo.FirstAsync(_ => _.PlayerInfoId == userInfo.Id);
+                        playerGameInfo.MagicNumber = new Random().Next(0, MagicNumberMaxNumber);
+
+                        context.PlayerGameInfo.Update(playerGameInfo);
+                    }
+
                     context.SaveChanges();
                 }
             }
 
-            return Task.FromResult(true);
-        }
-
-        /// <inheritdoc/>
-        public async Task<PlayerInfo> GetNextPlayerInfo(int roundNumber)
-        {
-            using (var context = new ApiContext())
-            {
-                if (!await context.PlayerInfo.AnyAsync())
-                    return new PlayerInfo();
-
-                return SetPlayerRoundAndReturnIt(context, roundNumber, await context.PlayerInfo.Where(_ => _.GameRound < roundNumber).OrderBy(_ => _.Id).FirstAsync());
-            }
+            return true;
         }
 
         /// <inheritdoc/>
@@ -79,26 +80,6 @@ namespace HiLoGame.Backend.Services
 
                 return gameInfo.RoundNumber;
             }
-        }
-
-        /// <summary>
-        /// Update player round number and return ir updated
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="gameRoundNumber"></param>
-        /// <param name="playerInfo"></param>
-        /// <returns></returns>
-        private PlayerInfo SetPlayerRoundAndReturnIt(ApiContext context, int gameRoundNumber, PlayerInfo? playerInfo)
-        {
-            if (playerInfo == null)
-                return new PlayerInfo();
-
-            playerInfo.GameRound = gameRoundNumber;
-
-            context.PlayerInfo.Update(playerInfo);
-            context.SaveChanges();
-
-            return playerInfo;
         }
     }
 }
