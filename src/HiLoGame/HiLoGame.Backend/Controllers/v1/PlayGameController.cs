@@ -73,12 +73,7 @@ namespace HiLoGame.Backend.Controllers.v1
                 return BadRequest(ErrorResponseObjectCreator.ErrorResponseObject($"Player with Id {playerGameBetRequest.PlayerId} doesn't have a magical number."));
             }
 
-            PlayerGameBetResponse response = new PlayerGameBetResponse
-            {
-                PlayerId = playerGameBetRequest.PlayerId,
-                IsMagicalNumber = playerGameBetRequest.MagicNumberBet == playerMagicNumber,
-                IsHigher = playerGameBetRequest.MagicNumberBet < playerMagicNumber
-            };
+            PlayerGameBetResponse response = await _playGameRepository.ValidatePlayerBet(playerGameBetRequest.PlayerId, playerGameBetRequest.MagicNumberBet, playerMagicNumber);
 
             return Ok(new Response<PlayerGameBetResponse>(response));
         }

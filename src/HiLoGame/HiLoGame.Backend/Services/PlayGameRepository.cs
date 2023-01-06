@@ -1,5 +1,7 @@
 ﻿using HiLoGame.Backend.Data;
 using HiLoGame.Backend.Domain;
+using HiLoGame.Contracts.v1.Requests;
+using HiLoGame.Contracts.v1.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace HiLoGame.Backend.Services
@@ -80,6 +82,37 @@ namespace HiLoGame.Backend.Services
 
                 return gameInfo.RoundNumber;
             }
+        }
+
+        /// <inheritdoc/>
+        public async Task<PlayerGameBetResponse> ValidatePlayerBet(int playerId, int betNumber, int playerMagicNumber)
+        {
+            var isBetCorrect = betNumber == playerMagicNumber;
+            
+            bool isMagicNumberHigherThenBet = false;
+            if (!isBetCorrect)
+            {
+                isMagicNumberHigherThenBet = betNumber < playerMagicNumber;
+
+                using(var context = new ApiContext())
+                {
+                    var player = await context.PlayerGameInfo.FirstOrDefaultAsync(_ => _.PlayerInfoId == playerId);
+
+                    if (player != null)
+                    {
+                        player.Pontuation += 1;
+                        context.PlayerGameInfo.Update(player);
+                        context.SaveChanges();
+                    }
+                }
+            }
+
+            return new PlayerGameBetResponse
+            {
+                PlayerId = playerId,
+                IsMagicalNumber = isBetCorrect,
+                IsHigher = isMagicNumberHigherThenBet
+            };
         }
     }
 }

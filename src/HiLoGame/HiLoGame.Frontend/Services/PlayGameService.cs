@@ -16,7 +16,6 @@ namespace HiLoGame.Frontend.Services
             _httpClient = httpClient;
         }
 
-
         public async Task<SetRoundReponse> CreateNewGameRoundNumber()
         {
             var httpResponse = await _httpClient.GetAsync(RequestUriCreateNewRound);

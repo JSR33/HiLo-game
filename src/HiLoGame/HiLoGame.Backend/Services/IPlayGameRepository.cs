@@ -1,4 +1,5 @@
 ﻿using HiLoGame.Backend.Domain;
+using HiLoGame.Contracts.v1.Responses;
 
 namespace HiLoGame.Backend.Services
 {
@@ -30,5 +31,11 @@ namespace HiLoGame.Backend.Services
         /// </summary>
         /// <returns></returns>
         public Task<int> SetNextGameRoundNumber();
+
+        /// <summary>
+        /// Validate player bet and add pontuation to player
+        /// </summary>
+        /// <returns></returns>
+        public Task<PlayerGameBetResponse> ValidatePlayerBet(int playerId, int betNumber, int playerMagicNumber);
     }
 }
