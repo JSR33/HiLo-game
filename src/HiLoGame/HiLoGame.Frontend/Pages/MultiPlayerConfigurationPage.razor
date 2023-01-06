@@ -81,6 +81,8 @@
             return;
         }
 
+        await SessionStorageAccessor.SetValueAsync("PlayerInfo", JsonSerializer.Serialize(Players));
+        await SessionStorageAccessor.SetValueAsync("GameRound", 0);
         NavigationManager.NavigateTo("/playgame");
     }
 }

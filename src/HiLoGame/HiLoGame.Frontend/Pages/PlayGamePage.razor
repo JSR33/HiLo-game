@@ -1,0 +1,92 @@
+﻿@page "/playgame"
+@using HiLoGame.Contracts.v1.Responses
+@using HiLoGame.Frontend.Services
+@using System.Text.Json
+@inject NavigationManager NavigationManager
+@inject IDialogService DialogService
+@inject IPlayGameService PlayGameService
+@inject SessionStorageAccessor SessionStorageAccessor
+
+<MudGrid>
+    <MudItem xs="6">
+        <MudStack Class="pa-8">
+            <MudText>Player: @PlayerName</MudText>
+        </MudStack>
+    </MudItem>
+    <MudItem xs="6">
+        <MudStack Class="pa-8">
+            <MudText>Round: @RoundNumber</MudText>
+        </MudStack>
+    </MudItem>
+    <MudItem xs="12">
+        <MudStack Class="pa-8">
+            <MudTextField @bind-Value="BetValue" Label="Player name" Immediate="true" Variant="Variant.Text"></MudTextField>
+        </MudStack>
+    </MudItem>
+</MudGrid>
+<MudStack Row="true" Class="pa-8 justify-center">
+    <MudFab Color="Color.Dark" Icon="@Icons.Filled.PlayArrow" Label="Bet" Size="Size.Small" OnClick="Bet"></MudFab>
+</MudStack>
+
+@code {
+    public string PlayerName { get; set; }
+    public int RoundNumber { get; set; } 
+    public int BetValue { get; set; }
+    private IEnumerable<PlayerInfoResponse> Players = new List<PlayerInfoResponse>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var playersInfoPlainText = await SessionStorageAccessor.GetValueAsync<string>("PlayerInfo");
+        Players = JsonSerializer.Deserialize<List<PlayerInfoResponse>>(playersInfoPlainText);
+
+        PlayerName = Players.First().Name;
+        await SessionStorageAccessor.SetValueAsync("PlayerPlayingId", Players.First().Id);
+
+        var response = await PlayGameService.CreateNewGameRoundNumber();
+        RoundNumber = response.NewRoundNumber;
+        await SessionStorageAccessor.SetValueAsync("GameRound", RoundNumber);
+    }
+
+    private async void Bet(){
+        //validate bet
+        var playerId = Convert.ToInt32(await SessionStorageAccessor.GetValueAsync<string>("PlayerPlayingId"));
+        var responsePlayerBet = await PlayGameService.PlayerBet(playerId, BetValue);
+
+        // if wins go to next round. If was last round go to resume page
+        if (responsePlayerBet.IsMagicalNumber)
+        {
+            await DialogService.ShowMessageBox(
+                "Information",
+                "Congratulations! Your bet is correct.");
+
+            PlayerName = Players.First().Name;
+            await SessionStorageAccessor.SetValueAsync("PlayerPlayingId", Players.First().Id);
+
+            var response = await PlayGameService.CreateNewGameRoundNumber();
+
+            if(response.EndOfGame){
+                NavigationManager.NavigateTo("/resume");
+            }
+
+            RoundNumber = response.NewRoundNumber;
+            StateHasChanged();
+            await SessionStorageAccessor.SetValueAsync("GameRound", RoundNumber);
+
+            return;
+        }
+
+        //if lose show message and go to next player bet
+        var higherOrLow = responsePlayerBet.IsHigher ? "lower" : "higher";
+        await DialogService.ShowMessageBox(
+               "Information",
+               $"Oops! Your bet is not correct. Your bet is {higherOrLow} than your magic number.");
+
+        BetValue = 0;
+        var tempPlayer = Players.Where(_ => _.Id > playerId).Any() ? Players.Where(_ => _.Id > playerId).OrderBy(_ => _.Id).First() : Players.First();
+        PlayerName = tempPlayer.Name;
+        StateHasChanged();
+
+        await SessionStorageAccessor.SetValueAsync("PlayerPlayingId", tempPlayer.Id);
+
+    }
+}

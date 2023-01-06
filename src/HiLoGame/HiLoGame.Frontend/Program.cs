@@ -13,6 +13,7 @@ var baseAddress = builder.Configuration.GetValue<string>("BaseUrl");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
 builder.Services.AddScoped<IGameInfoService, GameInfoService>();
 builder.Services.AddScoped<IPlayerInfoService, PlayerInfoService>();
+builder.Services.AddScoped<IPlayGameService, PlayGameService>();
 builder.Services.AddScoped<SessionStorageAccessor>();
 builder.Services.AddMudServices();
 
