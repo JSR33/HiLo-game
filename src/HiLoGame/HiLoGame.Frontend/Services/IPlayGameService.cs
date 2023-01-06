@@ -7,5 +7,7 @@ namespace HiLoGame.Frontend.Services
         Task<SetRoundReponse> CreateNewGameRoundNumber();
 
         Task<PlayerGameBetResponse> PlayerBet(int playerId, int playerBet);
+
+        Task<int> GetMaxBetValue(string gameMode);
     }
 }

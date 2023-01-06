@@ -20,7 +20,8 @@
     </MudItem>
     <MudItem xs="12">
         <MudStack Class="pa-8">
-            <MudTextField @bind-Value="BetValue" Label="Player name" Immediate="true" Variant="Variant.Text"></MudTextField>
+            <MudNumericField @bind-Value="BetValue" Label="Your bet number" Immediate="true" Variant="Variant.Text" Min="0" Max="@MaxBetValue"></MudNumericField>
+            <MudText Class="pa-1" Style="font-size=8">Magic number is between 0 and @MaxBetValue</MudText>
         </MudStack>
     </MudItem>
 </MudGrid>
@@ -32,6 +33,7 @@
     public string PlayerName { get; set; }
     public int RoundNumber { get; set; } 
     public int BetValue { get; set; }
+    public int MaxBetValue { get; set; }
     private IEnumerable<PlayerInfoResponse> Players = new List<PlayerInfoResponse>();
 
     protected override async Task OnInitializedAsync()
@@ -41,6 +43,9 @@
 
         PlayerName = Players.First().Name;
         await SessionStorageAccessor.SetValueAsync("PlayerPlayingId", Players.First().Id);
+
+        var gameMode = await SessionStorageAccessor.GetValueAsync<string>("GameMode");
+        MaxBetValue = await PlayGameService.GetMaxBetValue(gameMode);
 
         var response = await PlayGameService.CreateNewGameRoundNumber();
         RoundNumber = response.NewRoundNumber;

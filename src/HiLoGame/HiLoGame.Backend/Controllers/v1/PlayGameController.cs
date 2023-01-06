@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using HiLoGame.Backend.Domain;
 using HiLoGame.Backend.Services;
 using HiLoGame.Contracts.v1;
 using HiLoGame.Contracts.v1.Requests;
 using HiLoGame.Contracts.v1.Responses;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace HiLoGame.Backend.Controllers.v1
 {
@@ -30,7 +32,7 @@ namespace HiLoGame.Backend.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         [HttpGet(ApiRoutes.PlayGame.CreateNewGameRoundNumber)]
         public async Task<IActionResult> CreateNewGameRoundNumber()
-        {
+         {
             var isLastRound = await _playGameRepository.HasMoreRoundsToPlay();
 
             if (!isLastRound)
@@ -59,7 +61,7 @@ namespace HiLoGame.Backend.Controllers.v1
         /// <summary>
         /// Validate user bet 
         /// </summary>
-        /// <param name=""></param>
+        /// <param name="playerGameBetRequest"></param>
         /// <returns></returns>
         [ProducesResponseType(typeof(PlayerGameBetResponse), 200)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
@@ -76,6 +78,17 @@ namespace HiLoGame.Backend.Controllers.v1
             PlayerGameBetResponse response = await _playGameRepository.ValidatePlayerBet(playerGameBetRequest.PlayerId, playerGameBetRequest.MagicNumberBet, playerMagicNumber);
 
             return Ok(new Response<PlayerGameBetResponse>(response));
+        }
+
+        [ProducesResponseType(typeof(MaxBetValueResponse), 200)]
+        [HttpGet(ApiRoutes.PlayGame.GetMaxBetValue)]
+        public async Task<IActionResult> GetMaxBetValue([FromRoute] string gameMode)
+        {
+            return Ok(new Response<MaxBetValueResponse>(
+                new MaxBetValueResponse
+                {
+                    MaxValue = GameMode.GetModeHigherMagicNumber(gameMode)
+                }));
         }
     }
 }

@@ -28,6 +28,7 @@ namespace HiLoGame.Contracts.v1
         public static class PlayGame
         {
             public const string PlayerBet = Base + "/playerbet";
+            public const string GetMaxBetValue = Base + "/getmaxbetvalue/{gameMode}";
             public const string CreateNewGameRoundNumber = Base + "/createnewgameroundnumber";
         }
     }
