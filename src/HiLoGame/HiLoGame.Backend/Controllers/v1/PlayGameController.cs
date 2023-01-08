@@ -46,7 +46,7 @@ namespace HiLoGame.Backend.Controllers.v1
                     new SetRoundReponse
                     {
                         NewRoundNumber = roundNumber,
-                        EndOfGame = !isLastRound
+                        EndOfGame = isLastRound
                     }));
             }
 

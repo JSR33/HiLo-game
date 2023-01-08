@@ -8,6 +8,19 @@ namespace HiLoGame.Backend.Services
     /// <inheritdoc/>
     public class ResumeRepository : IResumeRepository
     {
+        public async Task<bool> EndGame()
+        {
+            using(var context = new ApiContext())
+            {
+                context.PlayerGameInfo.RemoveRange(context.PlayerGameInfo.ToList());
+                context.PlayerInfo.RemoveRange(context.PlayerInfo.ToList());
+                context.GameInfo.First().RoundNumber = 0;
+                context.SaveChanges();
+            }
+
+            return true;
+        }
+
         /// <inheritdoc/>
         public async Task<IEnumerable<ResumePlayerGameInfo>> GetResumePlayersGameInfo()
         {
@@ -28,6 +41,19 @@ namespace HiLoGame.Backend.Services
             }
 
             return resumePlayersGameInfo;
+        }
+
+        public async Task<bool> RestartGame()
+        {
+            using (var context = new ApiContext())
+            {
+                context.PlayerGameInfo.RemoveRange(context.PlayerGameInfo.ToList());
+                context.GameInfo.First().RoundNumber = 0;
+
+                context.SaveChanges();
+            }
+
+            return true;
         }
     }
 }

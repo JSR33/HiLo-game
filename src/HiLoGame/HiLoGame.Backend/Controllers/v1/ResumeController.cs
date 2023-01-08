@@ -44,5 +44,35 @@ namespace HiLoGame.Backend.Controllers.v1
 
             return Ok(new Response<ResumeResponse>(response));
         }
+
+        /// <summary>
+        /// Do all cleanups to end game
+        /// </summary>
+        /// <returns></returns>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [HttpGet(ApiRoutes.Resume.EndGame)]
+        public async Task<IActionResult> EndGame()
+        {
+            if (!await _resumeRepository.EndGame())
+                return BadRequest();
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Do all cleanups to restart game
+        /// </summary>
+        /// <returns></returns>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [HttpGet(ApiRoutes.Resume.RestartGame)]
+        public async Task<IActionResult> RestartGame()
+        {
+            if (!await _resumeRepository.RestartGame())
+                return BadRequest();
+
+            return Ok();
+        }
     }
 }
