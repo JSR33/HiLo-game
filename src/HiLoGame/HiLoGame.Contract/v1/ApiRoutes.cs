@@ -35,6 +35,8 @@ namespace HiLoGame.Contracts.v1
         public static class Resume
         {
             public const string ResumeTable = Base + "/resumetable";
+            public const string EndGame = Base + "/endgame";
+            public const string RestartGame = Base + "/restartgame";
 
         }
     }

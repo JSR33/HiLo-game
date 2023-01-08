@@ -38,6 +38,9 @@
 
     protected override async Task OnInitializedAsync()
     {
+        BetValue = 0;
+        PlayerName = "";
+
         var playersInfoPlainText = await SessionStorageAccessor.GetValueAsync<string>("PlayerInfo");
         Players = JsonSerializer.Deserialize<List<PlayerInfoResponse>>(playersInfoPlainText);
 
@@ -74,6 +77,8 @@
             }
 
             RoundNumber = response.NewRoundNumber;
+            BetValue = 0;
+
             StateHasChanged();
             await SessionStorageAccessor.SetValueAsync("GameRound", RoundNumber);
 
