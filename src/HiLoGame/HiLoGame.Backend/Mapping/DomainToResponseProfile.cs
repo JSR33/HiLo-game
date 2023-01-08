@@ -16,6 +16,7 @@ namespace HiLoGame.Backend.Mapping
         {
             CreateMap<GameInfo, GameInfoResponse>();
             CreateMap<PlayerInfo, PlayerInfoResponse>();
+            CreateMap<IEnumerable<ResumePlayerGameInfo>, ResumeResponse>();
         }
     }
 }
