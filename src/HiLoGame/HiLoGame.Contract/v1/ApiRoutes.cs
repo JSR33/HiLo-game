@@ -31,5 +31,13 @@ namespace HiLoGame.Contracts.v1
             public const string GetMaxBetValue = Base + "/getmaxbetvalue/{gameMode}";
             public const string CreateNewGameRoundNumber = Base + "/createnewgameroundnumber";
         }
+
+        public static class Resume
+        {
+            public const string ResumeTable = Base + "/resumetable";
+            public const string EndGame = Base + "/endgame";
+            public const string RestartGame = Base + "/restartgame";
+
+        }
     }
 }

@@ -46,7 +46,7 @@ namespace HiLoGame.Backend.Controllers.v1
                     new SetRoundReponse
                     {
                         NewRoundNumber = roundNumber,
-                        EndOfGame = !isLastRound
+                        EndOfGame = isLastRound
                     }));
             }
 
@@ -80,6 +80,11 @@ namespace HiLoGame.Backend.Controllers.v1
             return Ok(new Response<PlayerGameBetResponse>(response));
         }
 
+        /// <summary>
+        /// Get max value for a specific game mode choosen by player(s)
+        /// </summary>
+        /// <param name="gameMode"></param>
+        /// <returns></returns>
         [ProducesResponseType(typeof(MaxBetValueResponse), 200)]
         [HttpGet(ApiRoutes.PlayGame.GetMaxBetValue)]
         public async Task<IActionResult> GetMaxBetValue([FromRoute] string gameMode)

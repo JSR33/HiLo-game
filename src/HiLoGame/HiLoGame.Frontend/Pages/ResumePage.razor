@@ -1,0 +1,58 @@
+﻿@page "/resume"
+@using HiLoGame.Contracts.v1.Responses
+@using HiLoGame.Frontend.Services
+@inject IResumeService ResumeService
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+@inject SessionStorageAccessor SessionStorageAccessor
+
+<MudDataGrid Class="pa-8" Items="@Players" Height="250px">
+    <Columns>
+        <Column T="ResumePlayerGameInfo" Field="PlayerName" Title="Player Name" />
+        <Column T="ResumePlayerGameInfo" Field="Pontuation" Title="Pontuation (Bets)"/>
+    </Columns>
+</MudDataGrid>
+<MudStack Row="true" Class="pa-8 justify-center">
+    <MudFab Color="Color.Dark" Label="Menu" Size="Size.Small" OnClick="GoToMainMenu"></MudFab>
+    <MudFab Color="Color.Dark" Icon="@Icons.Filled.PlayArrow" Label="Play Again" Size="Size.Small" OnClick="ReplayGame"></MudFab>
+</MudStack>
+
+@code {
+    private IEnumerable<ResumePlayerGameInfo> Players;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var playersResume = await ResumeService.GetPlayersResume();
+
+        if (playersResume is null)
+        {
+            await DialogService.ShowMessageBox(
+                "Error",
+                "Players pontuation not found!");
+        }
+
+        Players = playersResume.OrderBy(_ => _.Pontuation);
+    }
+
+    private async void GoToMainMenu(){
+        await SessionStorageAccessor.RemoveAsync("PlayerInfo");
+        CleanSessionStorage();
+
+        await ResumeService.EndGame();
+
+        NavigationManager.NavigateTo("/");
+    }
+
+    private async void ReplayGame()
+    {
+        CleanSessionStorage();
+        await ResumeService.RestartGame();
+
+        NavigationManager.NavigateTo("/playgame");
+    }
+
+    private async void CleanSessionStorage(){
+        await SessionStorageAccessor.RemoveAsync("GameRound");
+        await SessionStorageAccessor.RemoveAsync("PlayerPlayingId");
+    }
+}

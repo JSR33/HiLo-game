@@ -17,16 +17,26 @@ namespace HiLoGame.Backend.Controllers.v1
         private readonly IPlayerInfoRepository _playerInfoRepository;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="playerInfoRepository"></param>
+        /// <param name="mapper"></param>
         public PlayerInfoController(IPlayerInfoRepository playerInfoRepository, IMapper mapper)
         {
             _playerInfoRepository = playerInfoRepository;
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Create new player
+        /// </summary>
+        /// <param name="playerInfoRequest"></param>
+        /// <returns></returns>
         [ProducesResponseType(typeof(PlayerInfoResponse), 200)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         [HttpPost(ApiRoutes.PlayerInfo.CreateNewPlayer)]
-        public async Task<IActionResult> CreateNewUser([FromBody] PlayerInfoRequest playerInfoRequest)
+        public async Task<IActionResult> CreateNewPlayer([FromBody] PlayerInfoRequest playerInfoRequest)
         {
             var newPlayerInfo = new PlayerInfo
             {

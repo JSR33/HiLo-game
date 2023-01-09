@@ -14,6 +14,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddr
 builder.Services.AddScoped<IGameInfoService, GameInfoService>();
 builder.Services.AddScoped<IPlayerInfoService, PlayerInfoService>();
 builder.Services.AddScoped<IPlayGameService, PlayGameService>();
+builder.Services.AddScoped<IResumeService, ResumeService>();
 builder.Services.AddScoped<SessionStorageAccessor>();
 builder.Services.AddMudServices();
 
