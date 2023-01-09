@@ -8,6 +8,7 @@ namespace HiLoGame.Backend.Services
     /// <inheritdoc/>
     public class ResumeRepository : IResumeRepository
     {
+        /// <inheritdoc/>
         public async Task<bool> EndGame()
         {
             using(var context = new ApiContext())
