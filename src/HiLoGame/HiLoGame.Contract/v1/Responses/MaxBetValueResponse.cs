@@ -8,6 +8,9 @@ namespace HiLoGame.Contracts.v1.Responses
 {
     public class MaxBetValueResponse
     {
+        /// <summary>
+        /// Maximum number that player can bet for configured level
+        /// </summary>
         public int MaxValue { get; set; }
     }
 }

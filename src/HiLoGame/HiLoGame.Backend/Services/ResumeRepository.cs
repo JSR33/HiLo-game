@@ -43,6 +43,7 @@ namespace HiLoGame.Backend.Services
             return resumePlayersGameInfo;
         }
 
+        /// <inheritdoc/>
         public async Task<bool> RestartGame()
         {
             using (var context = new ApiContext())

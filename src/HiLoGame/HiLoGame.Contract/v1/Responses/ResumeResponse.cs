@@ -2,6 +2,9 @@
 {
     public class ResumeResponse
     {
+        /// <summary>
+        /// Game pontuations of all players
+        /// </summary>
         public IEnumerable<ResumePlayerGameInfo> ResumePlayersGameInfo { get; set; }
     }
 }

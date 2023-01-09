@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HiLoGame.Contracts.v1.Requests
+﻿namespace HiLoGame.Contracts.v1.Requests
 {
     public class PlayerGameBetRequest
     {
+        /// <summary>
+        /// Playerd ID
+        /// </summary>
         public int PlayerId { get; set; }
+
+        /// <summary>
+        /// Player magic number bet
+        /// </summary>
         public int MagicNumberBet { get; set; }
     }
 }
