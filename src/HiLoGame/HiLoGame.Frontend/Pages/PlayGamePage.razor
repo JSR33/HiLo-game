@@ -20,8 +20,8 @@
     </MudItem>
     <MudItem xs="12">
         <MudStack Class="pa-8">
-            <MudNumericField @bind-Value="BetValue" Label="Your bet number" Immediate="true" Variant="Variant.Text" Min="0" Max="@MaxBetValue"></MudNumericField>
-            <MudText Class="pa-1" Style="font-size=8">Magic number is between 0 and @MaxBetValue</MudText>
+            <MudNumericField @bind-Value="BetValue" Label="Your bet number" Immediate="true" Variant="Variant.Text" Min="1" Max="@MaxBetValue"></MudNumericField>
+            <MudText Class="pa-1" Style="font-size=8">Magic number is between 1 and @MaxBetValue</MudText>
         </MudStack>
     </MudItem>
 </MudGrid>

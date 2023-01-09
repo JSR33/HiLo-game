@@ -30,7 +30,7 @@ namespace HiLoGame.Backend.Services
                         {
                             PlayerInfoId = userInfo.Id,
                             Pontuation = 0,
-                            MagicNumber = new Random().Next(0, MagicNumberMaxNumber)
+                            MagicNumber = new Random().Next(1, MagicNumberMaxNumber)
                         };
 
                         context.PlayerGameInfo.Add(playerGameInfo);
@@ -38,7 +38,7 @@ namespace HiLoGame.Backend.Services
                     else
                     {
                         playerGameInfo = await context.PlayerGameInfo.FirstAsync(_ => _.PlayerInfoId == userInfo.Id);
-                        playerGameInfo.MagicNumber = new Random().Next(0, MagicNumberMaxNumber);
+                        playerGameInfo.MagicNumber = new Random().Next(1, MagicNumberMaxNumber);
 
                         context.PlayerGameInfo.Update(playerGameInfo);
                     }

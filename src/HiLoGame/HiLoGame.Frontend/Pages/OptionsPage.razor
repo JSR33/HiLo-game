@@ -10,11 +10,6 @@
             <MudSelectItem T="string" Value="@gameMode">@gameMode</MudSelectItem>
         </Virtualize>
     </MudSelect>
-    <MudSelect T="string" Label="Game type" AnchorOrigin="Origin.BottomCenter" @bind-Value="GameTypeValue">
-        <Virtualize Items="@gameTypes" Context="gameType">
-            <MudSelectItem T="string" Value="@gameType">@gameType</MudSelectItem>
-        </Virtualize>
-    </MudSelect>
     <MudNumericField @bind-Value="NumberOdRounds" Label="Number of rounds" Variant="Variant.Text" Min="1" Max="6" />
 </MudStack>
 <MudStack Row="true" Class="justify-center">
